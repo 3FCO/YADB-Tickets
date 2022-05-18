@@ -21,7 +21,9 @@ public class ConfigLoader {
 
             return properties.getProperty(configName);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+
+        return "";
     }
 }

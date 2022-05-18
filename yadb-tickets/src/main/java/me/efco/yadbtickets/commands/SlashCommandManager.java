@@ -2,7 +2,10 @@ package me.efco.yadbtickets.commands;
 
 import me.efco.yadbtickets.Bot;
 import me.efco.yadbtickets.commands.interfaces.AbstractCommand;
+import me.efco.yadbtickets.commands.moderation.SetupCommand;
 import me.efco.yadbtickets.commands.normal.HelpCommand;
+import me.efco.yadbtickets.commands.normal.OpenCommand;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -26,6 +29,25 @@ public class SlashCommandManager extends ListenerAdapter {
                 new ArrayList<>(),
                 List.of(
                         new OptionData(OptionType.STRING, "command", "Get help for a specific commands", false)
+                ),
+                new ArrayList<>()
+        ));
+        commands.put("open", new OpenCommand(
+                "open", "Open a new ticket",
+                new ArrayList<>(),
+                List.of(
+                        new OptionData(OptionType.STRING, "description", "Ticket description", true)
+                ),
+                new ArrayList<>()
+        ));
+        commands.put("setup", new SetupCommand(
+                "setup", "Setup important information for the ticket bot to use",
+                List.of(Permission.ADMINISTRATOR),
+                List.of(
+                        new OptionData(OptionType.ROLE, "support", "Select a role to become the ticket support role", false),
+                        new OptionData(OptionType.ROLE, "moderator", "Select a role to become the ticket moderator role", false),
+                        new OptionData(OptionType.CHANNEL, "channel", "Select a channel to become the ticket master channel", false),
+                        new OptionData(OptionType.INTEGER, "category", "Select a category ID to become the ticket support category", false)
                 ),
                 new ArrayList<>()
         ));
