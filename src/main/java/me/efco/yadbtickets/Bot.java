@@ -3,6 +3,7 @@ package me.efco.yadbtickets;
 import me.efco.yadbtickets.commands.SlashCommandManager;
 import me.efco.yadbtickets.data.ConfigLoader;
 import me.efco.yadbtickets.events.BotReadyEvent;
+import me.efco.yadbtickets.events.ButtonIntEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
@@ -17,7 +18,7 @@ public class Bot {
     public static void main(String[] args) throws LoginException {
         api = JDABuilder.createDefault(ConfigLoader.getInstance().loadConfigByName("api_token"))
                 .setActivity(Activity.playing("Under construction"))
-                .addEventListeners(new BotReadyEvent())
+                .addEventListeners(new BotReadyEvent(), new ButtonIntEvent())
                 .addEventListeners(SlashCommandManager.getInstance())
                 .build();
 

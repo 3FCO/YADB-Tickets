@@ -11,21 +11,11 @@ public class Helper {
 
     private Helper() {}
 
-    public String isServerInfoValid(Guild guild) {
+    public boolean isServerInfoValid(Guild guild) {
         ServerInfo serverInfo = DBConnection.getInstance().getServerInfo(guild.getIdLong());
 
         if (serverInfo == null) {
-            return "Please use /setup command to be able to create tickets";
-        }
-
-        if (serverInfo.getCategoryId() == 0) {
-            return "Ticket category needs to be setup in order to create tickets";
-        } else if (serverInfo.getModeratorId() == 0) {
-            return "Ticket moderator role needs to be setup in order to create tickets";
-        } else if (serverInfo.getChannelId() == 0) {
-            return "Ticket master channel needs to be setup in order to create tickets";
-        } else if (serverInfo.getSupportId() == 0) {
-            return "Ticket category needs to be setup in order to create tickets";
+            return false;
         }
 
         Channel channel = guild.getTextChannelById(serverInfo.getChannelId());
@@ -33,21 +23,11 @@ public class Helper {
         Role role = guild.getRoleById(serverInfo.getSupportId());
         Role roleModerator = guild.getRoleById(serverInfo.getModeratorId());
 
-        StringBuilder stringBuilder = new StringBuilder();
-        if (channel == null) {
-            stringBuilder.append("channel,");
+        if (channel == null || category == null || role == null || roleModerator == null) {
+            return false;
         }
-        if (category == null) {
-            stringBuilder.append("category,");
-        }
-        if (role == null) {
-            stringBuilder.append("support role,");
-        }
-        if (roleModerator == null) {
-            stringBuilder.append("moderator role");
-        }
-        stringBuilder.append("... These has either been deleted or been comrruted on the database. Please use /setup command");
-        return stringBuilder.toString();
+
+        return true;
     }
 
     public ServerInfo setupTicket(Guild guild) {
@@ -64,7 +44,7 @@ public class Helper {
         Category category = guild.createCategory("tickets")
                 .addRolePermissionOverride(guild.getPublicRole().getIdLong(), java.util.List.of(), java.util.List.of(Permission.VIEW_CHANNEL,Permission.MESSAGE_SEND,Permission.MANAGE_CHANNEL))
                 .addRolePermissionOverride(supportRole.getIdLong(), java.util.List.of(Permission.VIEW_CHANNEL,Permission.MESSAGE_SEND), java.util.List.of())
-                .addRolePermissionOverride(supportRole.getIdLong(), java.util.List.of(Permission.VIEW_CHANNEL,Permission.MESSAGE_SEND,Permission.MANAGE_CHANNEL), java.util.List.of())
+                .addRolePermissionOverride(moderatorRole.getIdLong(), java.util.List.of(Permission.VIEW_CHANNEL,Permission.MESSAGE_SEND,Permission.MANAGE_CHANNEL), java.util.List.of())
                 .submit().join();
 
         TextChannel channel = guild.createTextChannel("master-ticket")
@@ -76,6 +56,10 @@ public class Helper {
         DBConnection.getInstance().insertServerInfo(serverInfo);
 
         return serverInfo;
+    }
+
+    public void createIfAbsent(ServerInfo serverInfo, Guild guild) {
+
     }
 
     public static Helper getInstance() {
