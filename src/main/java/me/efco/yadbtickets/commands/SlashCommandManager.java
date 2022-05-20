@@ -3,6 +3,7 @@ package me.efco.yadbtickets.commands;
 import me.efco.yadbtickets.Bot;
 import me.efco.yadbtickets.commands.interfaces.AbstractCommand;
 import me.efco.yadbtickets.commands.moderation.SetupCommand;
+import me.efco.yadbtickets.commands.normal.ClaimCommand;
 import me.efco.yadbtickets.commands.normal.HelpCommand;
 import me.efco.yadbtickets.commands.normal.OpenCommand;
 import net.dv8tion.jda.api.Permission;
@@ -50,6 +51,12 @@ public class SlashCommandManager extends ListenerAdapter {
                         new OptionData(OptionType.INTEGER, "category", "Select a category ID to become the ticket support category", false)
                 ),
                 new ArrayList<>()
+        ));
+        commands.put("claim", new ClaimCommand(
+                "claim", "Claim a ticket as a support member",
+                List.of(),
+                List.of(),
+                List.of()
         ));
     }
 

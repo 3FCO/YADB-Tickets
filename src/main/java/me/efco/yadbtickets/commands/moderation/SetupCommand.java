@@ -29,6 +29,11 @@ public class SetupCommand extends AbstractCommand {
         ServerInfo serverInfo = DBConnection.getInstance().getServerInfo(guild.getIdLong());
         MessageBuilder messageBuilder = new MessageBuilder();
 
+        if (!event.getMember().isOwner() || !event.getMember().getRoles().contains(guild.getRoleById(serverInfo.getModeratorId()))) {
+            event.reply("This command is only usable for server owners or support moderators").setEphemeral(true).queue();
+            return;
+        }
+
         OptionMapping optionSupport = event.getOption("support");
         OptionMapping optionModerator = event.getOption("moderator");
         OptionMapping optionChannel = event.getOption("channel");

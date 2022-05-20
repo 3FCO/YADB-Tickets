@@ -75,7 +75,7 @@ public class OpenCommand extends AbstractCommand {
         MessageBuilder messageBuilder = new MessageBuilder()
                 .setEmbeds(new EmbedBuilder()
                         .setTitle("Ticket #" + String.format("%05d", ticketId))
-                        .addField("Author", event.getUser().getAsTag(), false)
+                        .addField("Author", event.getMember().getAsMention(), false)
                         .addField("Information", description, false).build()).allowMentions(Message.MentionType.USER);
 
         TextChannel channel;

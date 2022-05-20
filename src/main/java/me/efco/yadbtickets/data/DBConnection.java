@@ -163,6 +163,45 @@ public class DBConnection {
         return 0;
     }
 
+    public void updateTicketSupporter(long id) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + CONNECTION_STRING,USERNAME,PASSWORD);
+             PreparedStatement statement = connection.prepareStatement("UPDATE tickets SET supporter=?;")) {
+            statement.setLong(1, id);
+
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public long getTicketSupporter(long id) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + CONNECTION_STRING,USERNAME,PASSWORD);
+             PreparedStatement statement = connection.prepareStatement("SELECT supporter FROM tickets WHERE id=?;")) {
+            statement.setLong(1, id);
+
+            ResultSet result = statement.executeQuery();
+            if(result.next()) {
+                return result.getLong("supporter");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public void setTicketSolved(long id, boolean state) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + CONNECTION_STRING,USERNAME,PASSWORD);
+             PreparedStatement statement = connection.prepareStatement("UPDATE tickets SET active=? WHERE id=?")) {
+            statement.setBoolean(1, state);
+            statement.setLong(2, id);
+
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static DBConnection getInstance() {
         return INSTANCE;
     }
