@@ -41,10 +41,10 @@ create table if not exists tickets
     id        serial
         constraint tickets_pk
             primary key,
-    author    bigint                not null,
+    author    bigint               not null,
     supporter bigint,
     logs      varchar,
-    active    boolean default false not null
+    active    boolean default true not null
 );
 
 create unique index if not exists tickets_id_uindex
