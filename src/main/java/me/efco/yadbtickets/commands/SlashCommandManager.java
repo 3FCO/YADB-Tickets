@@ -71,6 +71,14 @@ public class SlashCommandManager extends ListenerAdapter {
                 ),
                 List.of()
         ));
+        commands.put("adduser", new AddUserCommand(
+                "adduser", "Add a user to participate in a support ticket",
+                List.of(),
+                List.of(
+                        new OptionData(OptionType.USER, "newuser", "Select a member to add to support ticket", true)
+                ),
+                List.of()
+        ));
     }
 
     @Override

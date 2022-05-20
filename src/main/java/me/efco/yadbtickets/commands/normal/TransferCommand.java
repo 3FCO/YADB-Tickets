@@ -34,11 +34,11 @@ public class TransferCommand extends AbstractCommand {
         long currentSupporter = DBConnection.getInstance().getTicketSupporter(ticketId);
         Member newSupport = event.getOption("newsupport").getAsMember();
 
-        if (!member.isOwner() && !member.getRoles().contains(guild.getRoleById(serverInfo.getModeratorId())) && member.getIdLong() != currentSupporter) {
+        if (!Helper.getInstance().hasTicketSupportPrivileges(member, guild, serverInfo)) {
             event.reply("You dont have permissions in this ticket").setEphemeral(true).queue();
             return;
         }
-        if (!Helper.getInstance().hasTicketSupportPrivileges(member, guild, serverInfo)) {
+        if (!Helper.getInstance().hasTicketSupportPrivileges(newSupport, guild, serverInfo)) {
             event.reply("The chosen member doesn't have permission to administrate support ticket").setEphemeral(true).queue();
             return;
         }
