@@ -58,8 +58,10 @@ public class Helper {
         return serverInfo;
     }
 
-    public void createIfAbsent(ServerInfo serverInfo, Guild guild) {
-
+    public boolean hasTicketSupportPrivileges(Member member, Guild guild, ServerInfo serverInfo) {
+        return member.isOwner()
+                || member.getRoles().contains(guild.getRoleById(serverInfo.getSupportId()))
+                || member.getRoles().contains(guild.getRoleById(serverInfo.getModeratorId()));
     }
 
     public static Helper getInstance() {
