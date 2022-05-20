@@ -2,6 +2,7 @@ package me.efco.yadbtickets.commands.normal;
 
 import me.efco.yadbtickets.commands.interfaces.AbstractCommand;
 import me.efco.yadbtickets.data.DBConnection;
+import me.efco.yadbtickets.entities.Helper;
 import me.efco.yadbtickets.entities.ServerInfo;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -33,7 +34,7 @@ public class ClaimCommand extends AbstractCommand {
             event.reply("Maybe try and claim an actual support ticket?").setEphemeral(true).queue();
             return;
         }
-        if (!member.getRoles().contains(guild.getRoleById(serverInfo.getSupportId()))) {
+        if (!Helper.getInstance().hasTicketSupportPrivileges(member, guild, serverInfo)) {
             event.reply("You're not a support member").setEphemeral(true).queue();
             return;
         }
@@ -43,8 +44,8 @@ public class ClaimCommand extends AbstractCommand {
                 .putMemberPermissionOverride(member.getIdLong(), java.util.List.of(Permission.VIEW_CHANNEL,Permission.MESSAGE_SEND), java.util.List.of())
                 .queue();
 
-        event.reply("This ticket has been claimed by ``" + member.getNickname() + "``").queue();
+        event.reply("This ticket has been claimed by " + member.getEffectiveName()).queue();
 
-        DBConnection.getInstance().updateTicketSupporter(event.getIdLong());
+        DBConnection.getInstance().updateTicketSupporter(member.getIdLong());
     }
 }

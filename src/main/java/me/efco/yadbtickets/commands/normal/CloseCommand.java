@@ -3,6 +3,7 @@ package me.efco.yadbtickets.commands.normal;
 import me.efco.yadbtickets.commands.interfaces.AbstractCommand;
 import me.efco.yadbtickets.data.DBConnection;
 import me.efco.yadbtickets.data.TicketLogger;
+import me.efco.yadbtickets.entities.Helper;
 import me.efco.yadbtickets.entities.ServerInfo;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -34,15 +35,13 @@ public class CloseCommand extends AbstractCommand {
             return;
         }
 
-        long support = DBConnection.getInstance().getTicketSupporter(Integer.parseInt(channel.getName().split("-")[1]));
-        if (support == member.getIdLong() || member.getRoles().contains(guild.getRoleById(serverInfo.getModeratorId())) || event.getMember().isOwner()) {
-        } else {
+        if (!Helper.getInstance().hasTicketSupportPrivileges(member, guild, serverInfo)) {
             event.reply("You don't have permission to execute this command").setEphemeral(true).queue();
             return;
         }
 
         channel.delete().queueAfter(2, TimeUnit.MINUTES);
-        event.reply("``This ticket has been marked as solved. Closing <t:" + Instant.now().plus(2, ChronoUnit.MINUTES).getEpochSecond() + ":R>``").queue();
+        event.reply("``This ticket has been marked as solved. Closing ``<t:" + Instant.now().plus(2, ChronoUnit.MINUTES).getEpochSecond() + ":R>").queue();
 
         StringBuilder stringBuilder = new StringBuilder();
         List<Message> messages = new ArrayList<>();

@@ -3,10 +3,7 @@ package me.efco.yadbtickets.commands;
 import me.efco.yadbtickets.Bot;
 import me.efco.yadbtickets.commands.interfaces.AbstractCommand;
 import me.efco.yadbtickets.commands.moderation.SetupCommand;
-import me.efco.yadbtickets.commands.normal.ClaimCommand;
-import me.efco.yadbtickets.commands.normal.CloseCommand;
-import me.efco.yadbtickets.commands.normal.HelpCommand;
-import me.efco.yadbtickets.commands.normal.OpenCommand;
+import me.efco.yadbtickets.commands.normal.*;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -14,6 +11,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +61,14 @@ public class SlashCommandManager extends ListenerAdapter {
                 "close", "Close a ticket as a support member",
                 List.of(),
                 List.of(),
+                List.of()
+        ));
+        commands.put("transfer", new TransferCommand(
+                "transfer", "Transfer ticket to new new support member",
+                List.of(),
+                List.of(
+                        new OptionData(OptionType.USER, "newsupport", "Select support member to transfer ticket to", true)
+                ),
                 List.of()
         ));
     }

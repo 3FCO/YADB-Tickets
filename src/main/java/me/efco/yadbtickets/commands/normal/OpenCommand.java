@@ -17,6 +17,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
+import javax.swing.*;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -76,7 +77,7 @@ public class OpenCommand extends AbstractCommand {
                 .setEmbeds(new EmbedBuilder()
                         .setTitle("Ticket #" + String.format("%05d", ticketId))
                         .addField("Author", event.getMember().getAsMention(), false)
-                        .addField("Information", description, false).build()).allowMentions(Message.MentionType.USER);
+                        .addField("Information", description, false).build());
 
         TextChannel channel;
         try {
@@ -84,7 +85,7 @@ public class OpenCommand extends AbstractCommand {
                     .syncPermissionOverrides().submit().get();
 
             channel.sendMessage(messageBuilder.build()).queue();
-            event.reply("A support channel has been opened in your name. Here it is " + channel.getAsMention()).queue();
+            event.reply("A support channel has been opened in your name. Here it is " + channel.getAsMention()).setEphemeral(true).queue();
             event.getGuild().getTextChannelById(serverInfo.getChannelId()).sendMessage("``A new support ticket has been created``\n" + channel.getAsMention()).queue();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
