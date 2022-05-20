@@ -1,4 +1,4 @@
-package me.efco.yadbtickets.commands.normal;
+package me.efco.yadbtickets.commands.moderation;
 
 import me.efco.yadbtickets.commands.interfaces.AbstractCommand;
 import me.efco.yadbtickets.data.DBConnection;

@@ -2,7 +2,7 @@ package me.efco.yadbtickets.commands;
 
 import me.efco.yadbtickets.Bot;
 import me.efco.yadbtickets.commands.interfaces.AbstractCommand;
-import me.efco.yadbtickets.commands.moderation.SetupCommand;
+import me.efco.yadbtickets.commands.moderation.*;
 import me.efco.yadbtickets.commands.normal.*;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,6 +75,14 @@ public class SlashCommandManager extends ListenerAdapter {
                 List.of(),
                 List.of(
                         new OptionData(OptionType.USER, "newuser", "Select a member to add to support ticket", true)
+                ),
+                List.of()
+        ));
+        commands.put("stat", new StatCommand(
+                "stat", "See how many tickets has been solved by that member",
+                List.of(),
+                List.of(
+                        new OptionData(OptionType.USER, "target", "Select a member to see stats for", true)
                 ),
                 List.of()
         ));

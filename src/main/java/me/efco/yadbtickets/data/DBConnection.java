@@ -202,6 +202,22 @@ public class DBConnection {
         }
     }
 
+    public int getSolvedTicketsByadmin(long id) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + CONNECTION_STRING,USERNAME,PASSWORD);
+             PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM tickets WHERE supporter=? AND active=false")) {
+            statement.setLong(1, id);
+
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                return result.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
     public static DBConnection getInstance() {
         return INSTANCE;
     }
