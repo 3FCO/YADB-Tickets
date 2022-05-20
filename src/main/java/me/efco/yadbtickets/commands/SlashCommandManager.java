@@ -4,6 +4,7 @@ import me.efco.yadbtickets.Bot;
 import me.efco.yadbtickets.commands.interfaces.AbstractCommand;
 import me.efco.yadbtickets.commands.moderation.SetupCommand;
 import me.efco.yadbtickets.commands.normal.ClaimCommand;
+import me.efco.yadbtickets.commands.normal.CloseCommand;
 import me.efco.yadbtickets.commands.normal.HelpCommand;
 import me.efco.yadbtickets.commands.normal.OpenCommand;
 import net.dv8tion.jda.api.Permission;
@@ -54,6 +55,12 @@ public class SlashCommandManager extends ListenerAdapter {
         ));
         commands.put("claim", new ClaimCommand(
                 "claim", "Claim a ticket as a support member",
+                List.of(),
+                List.of(),
+                List.of()
+        ));
+        commands.put("close", new CloseCommand(
+                "close", "Close a ticket as a support member",
                 List.of(),
                 List.of(),
                 List.of()
