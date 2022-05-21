@@ -5,7 +5,7 @@ import me.efco.yadbtickets.entities.ServerInfo;
 import java.sql.*;
 
 public class DBConnection {
-    private static DBConnection INSTANCE = new DBConnection();
+    private static final DBConnection INSTANCE = new DBConnection();
     private final String CONNECTION_STRING;
     private final String USERNAME;
     private final String PASSWORD;

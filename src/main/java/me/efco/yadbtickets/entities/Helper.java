@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.entities.*;
 import java.awt.*;
 
 public class Helper {
-    private static Helper INSTANCE = new Helper();
+    private static final Helper INSTANCE = new Helper();
 
     private Helper() {}
 

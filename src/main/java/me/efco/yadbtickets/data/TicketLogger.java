@@ -15,7 +15,7 @@ public class TicketLogger {
             folder.mkdirs();
         }
 
-        try (FileWriter fileWriter = new FileWriter(new File("./yadbtickets/tickets/" + id + ".txt"));){
+        try (FileWriter fileWriter = new FileWriter(new File("./yadbtickets/tickets/" + id + ".txt"))){
             fileWriter.append(log);
         } catch (IOException e) {
             throw new RuntimeException(e);
